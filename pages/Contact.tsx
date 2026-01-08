@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Clock } from 'lucide-react';
 
@@ -179,8 +180,7 @@ const Contact: React.FC = () => {
              
              <div className="mt-8 pt-8 border-t border-gray-700">
                  <p className="text-sm text-gray-400 text-center">
-                     KONTE Ingeniería & Consultoría<br/>
-                     NIT: 900.123.456-7
+                     KONTE Ingeniería & Consultoría
                  </p>
              </div>
           </div>

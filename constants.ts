@@ -1,3 +1,4 @@
+
 import { Service, Project } from './types';
 
 export const SERVICES: Service[] = [
@@ -305,8 +306,11 @@ export const PROJECTS: Project[] = [
     location: 'Guamo, Tolima',
     type: 'Estación de Servicio',
     year: '2024',
-    image: 'https://i.imgur.com/lWor1n4.jpeg',
+    image: 'https://i.imgur.com/pXQd2kW.jpeg',
     images: [
+      'https://i.imgur.com/pXQd2kW.jpeg',
+      'https://i.imgur.com/qe9ByLs.jpeg',
+      'https://i.imgur.com/Gc84dEi.jpeg',
       'https://i.imgur.com/lWor1n4.jpeg',
       'https://i.imgur.com/MmB2T7E.jpeg',
       'https://i.imgur.com/ZVY54xM.jpeg',
