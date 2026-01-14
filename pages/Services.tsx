@@ -1,13 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import { SERVICES } from '../constants';
-import { Check, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Check, ArrowRight, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { Page } from '../types';
 
 interface ServicesProps {
   setPage: (page: Page) => void;
+  openLightbox: (src: string) => void;
 }
 
-const ServiceImageCarousel = ({ images, title }: { images: string[], title: string }) => {
+const ServiceImageCarousel = ({ images, title, openLightbox }: { images: string[], title: string, openLightbox: (src: string) => void }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -28,7 +30,10 @@ const ServiceImageCarousel = ({ images, title }: { images: string[], title: stri
   };
 
   return (
-    <div className="relative w-full h-80 md:h-[400px] group">
+    <div 
+      className="relative w-full h-80 md:h-[400px] group cursor-pointer"
+      onClick={() => openLightbox(images[currentIndex])}
+    >
        {images.map((img, idx) => (
          <img
            key={idx}
@@ -39,6 +44,11 @@ const ServiceImageCarousel = ({ images, title }: { images: string[], title: stri
        ))}
 
        <div className="absolute inset-0 bg-primary/10 hover:bg-transparent transition-colors pointer-events-none"></div>
+
+       {/* Zoom Indicator */}
+       <div className="absolute top-4 right-4 bg-black/30 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-20">
+         <ZoomIn className="text-white w-5 h-5" />
+       </div>
 
        {/* Controls */}
        <button 
@@ -70,7 +80,7 @@ const ServiceImageCarousel = ({ images, title }: { images: string[], title: stri
   );
 };
 
-const Services: React.FC<ServicesProps> = ({ setPage }) => {
+const Services: React.FC<ServicesProps> = ({ setPage, openLightbox }) => {
   return (
     <div className="pt-20 pb-12 animate-in fade-in duration-500">
       <div className="bg-primary py-20 text-white mb-12">
@@ -89,12 +99,18 @@ const Services: React.FC<ServicesProps> = ({ setPage }) => {
               <div className="w-full md:w-1/2">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl group bg-gray-100">
                   {service.images && service.images.length > 1 ? (
-                    <ServiceImageCarousel images={service.images} title={service.title} />
+                    <ServiceImageCarousel images={service.images} title={service.title} openLightbox={openLightbox} />
                   ) : (
-                    <>
+                    <div 
+                      className="cursor-pointer relative group" 
+                      onClick={() => openLightbox(service.image)}
+                    >
                       <img src={service.image} alt={service.title} className="w-full h-80 md:h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-primary/10 hover:bg-transparent transition-colors"></div>
-                    </>
+                      <div className="absolute top-4 right-4 bg-black/30 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm">
+                         <ZoomIn className="text-white w-5 h-5" />
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>

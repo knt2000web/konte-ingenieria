@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -10,36 +11,41 @@ import Contact from './pages/Contact';
 import ClientDashboard from './pages/ClientDashboard';
 import LoginModal from './components/LoginModal';
 import { Page } from './types';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, X } from 'lucide-react';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.HOME);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
     setCurrentPage(Page.DASHBOARD);
   };
 
+  const openLightbox = (src: string) => {
+    setLightboxImage(src);
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case Page.HOME:
-        return <Home setPage={setCurrentPage} />;
+        return <Home setPage={setCurrentPage} openLightbox={openLightbox} />;
       case Page.ABOUT:
-        return <About setPage={setCurrentPage} />;
+        return <About setPage={setCurrentPage} openLightbox={openLightbox} />;
       case Page.SERVICES:
-        return <Services setPage={setCurrentPage} />;
+        return <Services setPage={setCurrentPage} openLightbox={openLightbox} />;
       case Page.SERVICE_ANI:
-        return <ServiceAni setPage={setCurrentPage} />;
+        return <ServiceAni setPage={setCurrentPage} openLightbox={openLightbox} />;
       case Page.PROJECTS:
-        return <Projects />;
+        return <Projects openLightbox={openLightbox} />;
       case Page.CONTACT:
-        return <Contact />;
+        return <Contact openLightbox={openLightbox} />;
       case Page.DASHBOARD:
-        return isLoggedIn ? <ClientDashboard /> : <Home setPage={setCurrentPage} />;
+        return isLoggedIn ? <ClientDashboard /> : <Home setPage={setCurrentPage} openLightbox={openLightbox} />;
       default:
-        return <Home setPage={setCurrentPage} />;
+        return <Home setPage={setCurrentPage} openLightbox={openLightbox} />;
     }
   };
 
@@ -63,6 +69,27 @@ const App: React.FC = () => {
         onClose={() => setLoginModalOpen(false)}
         onLogin={handleLogin}
       />
+
+      {/* Global Lightbox Modal */}
+      {lightboxImage && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button 
+            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-white/10 p-2 rounded-full hover:bg-white/20 z-50"
+            onClick={() => setLightboxImage(null)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <img 
+            src={lightboxImage} 
+            alt="Vista completa" 
+            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300 select-none"
+            onClick={(e) => e.stopPropagation()} 
+          />
+        </div>
+      )}
 
       {/* Persistent Floating Contact Button */}
       <button

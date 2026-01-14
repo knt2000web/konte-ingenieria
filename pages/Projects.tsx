@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { PROJECTS } from '../constants';
 import { Project } from '../types';
-import { MapPin, Calendar, Maximize2, Play, X } from 'lucide-react';
+import { MapPin, Calendar, Maximize2, Play, X, ZoomIn } from 'lucide-react';
 
-const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
+const ProjectCard: React.FC<{ project: Project; openLightbox: (src: string) => void }> = ({ project, openLightbox }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -32,6 +33,13 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
     setShowVideo(false); 
   };
 
+  const handleImageClick = (e: React.MouseEvent) => {
+     // If not showing video, open lightbox
+     if (!showVideo) {
+        openLightbox(images[currentImageIndex]);
+     }
+  };
+
   return (
     <div 
       className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
@@ -40,8 +48,9 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         setIsHovering(false);
         setCurrentImageIndex(0); // Reset to cover image when mouse leaves
       }}
+      onClick={handleImageClick}
     >
-      <div className="relative h-64 overflow-hidden shrink-0 bg-gray-100">
+      <div className="relative h-64 overflow-hidden shrink-0 bg-gray-100 cursor-pointer">
         
         {showVideo && project.video ? (
           <div className="relative w-full h-full bg-black">
@@ -98,8 +107,17 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                 </div>
               </button>
             )}
+            
+            {/* Zoom icon hint */}
+            {!project.video && (
+               <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-black/30 p-1.5 rounded-full backdrop-blur-sm">
+                      <ZoomIn className="w-4 h-4 text-white" />
+                  </div>
+               </div>
+            )}
 
-            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary shadow-sm z-10">
+            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary shadow-sm z-10">
               {project.status === 'Completed' ? 'Finalizado' : project.status === 'In Progress' ? 'En Ejecución' : 'Planeación'}
             </div>
             
@@ -116,7 +134,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
         {/* Gallery Navigation Dots */}
         {!showVideo && images.length > 1 && (
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20" onClick={(e) => e.stopPropagation()}>
             {images.map((_, idx) => (
               <button
                 key={idx}
@@ -129,7 +147,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           </div>
         )}
       </div>
-      <div className="p-6 flex flex-col flex-grow relative">
+      <div className="p-6 flex flex-col flex-grow relative" onClick={(e) => e.stopPropagation()}>
         {/* Loading Bar for Reel Effect */}
         {isHovering && !showVideo && images.length > 1 && (
              <div className="absolute top-0 left-0 h-1 bg-primary animate-[pulse_1.2s_ease-in-out_infinite] w-full" />
@@ -159,7 +177,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   );
 };
 
-const Projects: React.FC = () => {
+const Projects: React.FC<{ openLightbox: (src: string) => void }> = ({ openLightbox }) => {
   return (
     <div className="pt-20 pb-12 animate-in fade-in duration-500">
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-12">
@@ -178,7 +196,7 @@ const Projects: React.FC = () => {
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PROJECTS.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} openLightbox={openLightbox} />
             ))}
          </div>
        </div>

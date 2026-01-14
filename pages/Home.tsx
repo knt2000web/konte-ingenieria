@@ -1,11 +1,26 @@
+
 import React, { useState, useEffect } from 'react';
 import { SERVICES } from '../constants';
 import { Page } from '../types';
-import { ArrowRight, CheckCircle, Award, Users, Globe } from 'lucide-react';
+import { ArrowRight, CheckCircle, Award, Users, Globe, ZoomIn } from 'lucide-react';
 
 interface HomeProps {
   setPage: (page: Page) => void;
+  openLightbox: (src: string) => void;
 }
+
+// Images for the infinite scroll marquee
+const SCROLL_IMAGES = [
+  'https://i.imgur.com/CzPNg3d.jpeg',
+  'https://i.imgur.com/ZZ38mcw.jpeg',
+  'https://i.imgur.com/CZQu5sM.jpeg',
+  'https://i.imgur.com/lBlvGSZ.jpeg',
+  'https://i.imgur.com/NFBT5CW.jpeg',
+  'https://i.imgur.com/7KWWM9h.jpeg',
+  'https://i.imgur.com/bVuWh08.jpeg',
+  'https://i.imgur.com/5EheDic.jpeg',
+  'https://i.imgur.com/ENAIe6r.jpeg'
+];
 
 // Sub-services specific data for animation for Service 3
 const SPECIALIZED_SUB_SERVICES = [
@@ -87,7 +102,7 @@ const TECHNICAL_SUB_SERVICES = [
   }
 ];
 
-const Home: React.FC<HomeProps> = ({ setPage }) => {
+const Home: React.FC<HomeProps> = ({ setPage, openLightbox }) => {
   // State for Specialized Engineering (ID 3)
   const [featureIndex, setFeatureIndex] = useState(0);
   const [bgImageIndex, setBgImageIndex] = useState(0);
@@ -180,9 +195,10 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
 
   return (
     <div className="animate-in fade-in duration-500">
+      
       {/* Hero Section */}
-      <div className="relative w-full h-[600px] overflow-hidden group">
-        <div className="absolute inset-0 bg-black/40 z-10" />
+      <div className="relative w-full h-[600px] overflow-hidden group cursor-pointer" onClick={() => openLightbox("https://i.imgur.com/gy1Wtmv.jpeg")}>
+        <div className="absolute inset-0 bg-black/40 z-10 group-hover:bg-black/20 transition-colors" />
         <img
           src="https://i.imgur.com/gy1Wtmv.jpeg"
           onError={(e) => {
@@ -193,9 +209,12 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
           className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 z-20 flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div className="max-w-3xl animate-in slide-in-from-bottom-10 duration-700">
+        <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+           <ZoomIn className="text-white w-8 h-8 drop-shadow-md" />
+        </div>
+        <div className="absolute inset-0 z-20 flex items-center pointer-events-none">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pointer-events-auto">
+            <div className="max-w-3xl animate-in slide-in-from-bottom-10 duration-700 text-left">
               <span className="bg-primary text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4 inline-block">
                 Líderes en Infraestructura y EDS
               </span>
@@ -205,7 +224,7 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
               <p className="text-xl text-gray-100 mb-8 max-w-2xl font-light">
                 Expertos en normativa (Res. 1361/716), diseño estructural y ejecución de proyectos de alto impacto a nivel nacional.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4" onClick={(e) => e.stopPropagation()}>
                 <button 
                   onClick={() => setPage(Page.SERVICES)}
                   className="px-8 py-4 bg-primary hover:bg-secondary text-white rounded-lg font-bold transition-all shadow-lg hover:shadow-primary/50 flex items-center justify-center gap-2"
@@ -225,7 +244,7 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
       </div>
 
       {/* Intro Stats */}
-      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 mb-20">
+      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 mb-12">
         <div className="bg-white rounded-xl shadow-xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8 border-b-4 border-primary">
           {[
             { icon: Award, label: 'Experiencia', value: '+15 Años' },
@@ -244,6 +263,67 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
           ))}
         </div>
       </div>
+
+      {/* Moving Image Gallery Strip - Interactive */}
+      <section className="w-full bg-white border-b border-gray-100 py-10 mb-20 overflow-hidden">
+        <div className="relative w-full">
+            <div className="flex animate-scroll hover:pause">
+                {/* Image Set 1 */}
+                <div className="flex gap-8 px-4 items-center min-w-max">
+                    {SCROLL_IMAGES.map((img, idx) => (
+                         <div 
+                            key={`s1-${idx}`} 
+                            className="relative group/img h-40 w-64 overflow-hidden rounded-xl shadow-md border border-gray-200 cursor-pointer"
+                            onClick={() => openLightbox(img)}
+                         >
+                             <img 
+                               src={img} 
+                               alt={`Project Gallery ${idx}`} 
+                               className="h-full w-full object-cover opacity-90 group-hover/img:opacity-100 group-hover/img:scale-110 transition-all duration-500" 
+                             />
+                             <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                                <ZoomIn className="text-white opacity-0 group-hover/img:opacity-100 transform scale-50 group-hover/img:scale-100 transition-all duration-300 w-8 h-8 drop-shadow-lg" />
+                             </div>
+                         </div>
+                    ))}
+                </div>
+                {/* Image Set 2 (Duplicate for infinity) */}
+                <div className="flex gap-8 px-4 items-center min-w-max">
+                     {SCROLL_IMAGES.map((img, idx) => (
+                         <div 
+                            key={`s2-${idx}`} 
+                            className="relative group/img h-40 w-64 overflow-hidden rounded-xl shadow-md border border-gray-200 cursor-pointer"
+                            onClick={() => openLightbox(img)}
+                         >
+                             <img 
+                               src={img} 
+                               alt={`Project Gallery ${idx}`} 
+                               className="h-full w-full object-cover opacity-90 group-hover/img:opacity-100 group-hover/img:scale-110 transition-all duration-500" 
+                             />
+                             <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                                <ZoomIn className="text-white opacity-0 group-hover/img:opacity-100 transform scale-50 group-hover/img:scale-100 transition-all duration-300 w-8 h-8 drop-shadow-lg" />
+                             </div>
+                         </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+        
+        <style>{`
+            @keyframes scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+            .animate-scroll {
+                display: flex;
+                width: max-content;
+                animation: scroll 80s linear infinite; /* Slower animation for photos */
+            }
+            .hover\\:pause:hover {
+                animation-play-state: paused;
+            }
+        `}</style>
+      </section>
 
       {/* Services Preview */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
@@ -272,7 +352,10 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
               return (
                 <div key={service.id} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 border-2 border-primary/10 flex flex-col h-full">
                    {/* Image Carousel Header */}
-                   <div className="h-64 relative overflow-hidden bg-gray-200">
+                   <div 
+                      className="h-64 relative overflow-hidden bg-gray-200 cursor-pointer"
+                      onClick={() => openLightbox(currentBgImage)}
+                   >
                      <img 
                        key={currentBgImage} // Key forces re-render for animation
                        src={currentBgImage} 
@@ -280,10 +363,13 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
                        className="w-full h-full object-cover animate-in fade-in duration-700"
                        referrerPolicy="no-referrer"
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/60 transition-all"></div>
+                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="text-white w-6 h-6 drop-shadow-md" />
+                     </div>
                      
                      {/* Image Indicators */}
-                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10">
+                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10 pointer-events-none">
                         {service.images?.map((_, idx) => (
                           <div 
                             key={idx} 
@@ -347,7 +433,10 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
               return (
                 <div key={service.id} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 border-2 border-primary/10 flex flex-col h-full">
                    {/* Image Carousel Header */}
-                   <div className="h-64 relative overflow-hidden bg-gray-200">
+                   <div 
+                      className="h-64 relative overflow-hidden bg-gray-200 cursor-pointer"
+                      onClick={() => openLightbox(currentBgImage)}
+                   >
                      <img 
                        key={currentBgImage} 
                        src={currentBgImage} 
@@ -355,10 +444,13 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
                        className="w-full h-full object-cover animate-in fade-in duration-700" 
                        referrerPolicy="no-referrer"
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/60 transition-all"></div>
+                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="text-white w-6 h-6 drop-shadow-md" />
+                     </div>
                      
                      {/* Image Indicators */}
-                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10">
+                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10 pointer-events-none">
                         {service.images?.map((_, idx) => (
                           <div 
                             key={idx} 
@@ -422,7 +514,10 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
               return (
                 <div key={service.id} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 border-2 border-primary/10 flex flex-col h-full">
                    {/* Image Carousel Header */}
-                   <div className="h-64 relative overflow-hidden bg-gray-200">
+                   <div 
+                      className="h-64 relative overflow-hidden bg-gray-200 cursor-pointer"
+                      onClick={() => openLightbox(currentBgImage)}
+                   >
                      <img 
                        key={currentBgImage} 
                        src={currentBgImage} 
@@ -430,10 +525,13 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
                        className="w-full h-full object-cover animate-in fade-in duration-700"
                        referrerPolicy="no-referrer"
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/60 transition-all"></div>
+                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="text-white w-6 h-6 drop-shadow-md" />
+                     </div>
                      
                      {/* Image Indicators */}
-                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10">
+                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10 pointer-events-none">
                         {service.images?.map((_, idx) => (
                           <div 
                             key={idx} 
@@ -497,7 +595,10 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
               return (
                 <div key={service.id} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 border-2 border-primary/10 flex flex-col h-full">
                    {/* Image Carousel Header */}
-                   <div className="h-64 relative overflow-hidden bg-gray-200">
+                   <div 
+                      className="h-64 relative overflow-hidden bg-gray-200 cursor-pointer"
+                      onClick={() => openLightbox(currentBgImage)}
+                   >
                      <img 
                        key={currentBgImage} 
                        src={currentBgImage} 
@@ -505,10 +606,13 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
                        className="w-full h-full object-cover animate-in fade-in duration-700" 
                        referrerPolicy="no-referrer"
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/60 transition-all"></div>
+                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="text-white w-6 h-6 drop-shadow-md" />
+                     </div>
                      
                      {/* Image Indicators: SWITCHED TO PROGRESS BAR due to large number of images */}
-                     <div className="absolute bottom-3 left-0 right-0 z-10 px-6">
+                     <div className="absolute bottom-3 left-0 right-0 z-10 px-6 pointer-events-none">
                         <div className="w-full bg-white/30 h-1 rounded-full overflow-hidden backdrop-blur-sm">
                            <div 
                               className="h-full bg-white transition-all duration-500 ease-out shadow-sm"
@@ -565,7 +669,10 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
             // Standard Card Render (For other services)
             return (
               <div key={service.id} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 border border-gray-100">
-                <div className="h-48 overflow-hidden relative">
+                <div 
+                  className="h-48 overflow-hidden relative cursor-pointer"
+                  onClick={() => openLightbox(service.image)}
+                >
                    <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10" />
                    <img 
                       src={service.image} 
@@ -573,6 +680,9 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                       referrerPolicy="no-referrer"
                    />
+                   <div className="absolute top-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="text-white w-5 h-5 drop-shadow-md" />
+                   </div>
                 </div>
                 <div className="p-8">
                   <div className="flex items-center gap-2 mb-4">
@@ -625,8 +735,14 @@ const Home: React.FC<HomeProps> = ({ setPage }) => {
               </ul>
             </div>
             <div className="relative">
-              <div className="bg-white p-2 rounded-lg transform rotate-3 shadow-2xl">
+              <div 
+                className="bg-white p-2 rounded-lg transform rotate-3 shadow-2xl cursor-pointer hover:scale-105 transition-transform"
+                onClick={() => openLightbox("https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=800")}
+              >
                  <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=800" className="rounded border border-gray-200" alt="Construction Site" />
+                 <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                    <ZoomIn className="text-white w-12 h-12 drop-shadow-xl" />
+                 </div>
               </div>
             </div>
           </div>

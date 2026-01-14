@@ -1,23 +1,32 @@
+
 import React from 'react';
 import { Page } from '../types';
-import { Target, Users, Building2, HardHat, CheckCircle, Truck, Droplets, Lightbulb, Briefcase, Ruler, ArrowRight, BookOpen } from 'lucide-react';
+import { Target, Building2, HardHat, CheckCircle, Truck, Briefcase, Ruler, ArrowRight, ZoomIn } from 'lucide-react';
 
 interface AboutProps {
   setPage: (page: Page) => void;
+  openLightbox: (src: string) => void;
 }
 
-const About: React.FC<AboutProps> = ({ setPage }) => {
+const About: React.FC<AboutProps> = ({ setPage, openLightbox }) => {
   return (
     <div className="animate-in fade-in duration-700">
       {/* Hero Section */}
-      <div className="relative h-[400px] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-primary/80 z-10" />
+      <div 
+        className="relative h-[400px] w-full overflow-hidden group cursor-pointer"
+        onClick={() => openLightbox("https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2000")}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-primary/80 z-10 group-hover:from-gray-900/80 transition-all" />
         <img 
           src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2000" 
           alt="Ingeniería y Construcción" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 z-20 flex items-center">
+        <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+           <ZoomIn className="text-white w-6 h-6 drop-shadow-md" />
+        </div>
+
+        <div className="absolute inset-0 z-20 flex items-center pointer-events-none">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
             <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
               QUIÉNES SOMOS
@@ -64,13 +73,16 @@ const About: React.FC<AboutProps> = ({ setPage }) => {
               </div>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative group cursor-pointer" onClick={() => openLightbox("https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&q=80&w=1000")}>
              <div className="absolute top-0 right-0 -mr-8 -mt-8 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
              <img 
                src="https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&q=80&w=1000" 
                alt="Equipo de Ingenieros" 
-               className="rounded-2xl shadow-2xl relative z-10"
+               className="rounded-2xl shadow-2xl relative z-10 transition-transform duration-500 group-hover:scale-105"
              />
+             <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                <ZoomIn className="text-white w-6 h-6 drop-shadow-lg" />
+             </div>
              <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-xl shadow-xl z-20 max-w-xs border-t-4 border-accent hidden md:block">
                <p className="text-gray-800 italic font-medium">
                  "Nuestro principal objetivo es construir, proyectar y crear espacios donde se compartan emociones y se consoliden lazos inquebrantables."
@@ -208,13 +220,19 @@ const About: React.FC<AboutProps> = ({ setPage }) => {
                  ))}
                </div>
              </div>
-             <div className="w-full md:w-1/2 relative">
-               <div className="absolute inset-0 bg-primary/20 rounded-2xl transform rotate-3"></div>
+             <div 
+                className="w-full md:w-1/2 relative cursor-pointer group"
+                onClick={() => openLightbox("https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1000")}
+             >
+               <div className="absolute inset-0 bg-primary/20 rounded-2xl transform rotate-3 transition-transform group-hover:rotate-6"></div>
                <img 
                  src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1000" 
                  alt="Suministros y Logística" 
                  className="rounded-2xl shadow-lg relative z-10 w-full object-cover"
                />
+               <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ZoomIn className="text-white w-12 h-12 drop-shadow-xl" />
+               </div>
              </div>
            </div>
         </div>

@@ -1,25 +1,34 @@
+
 import React from 'react';
 import { Page } from '../types';
-import { CheckCircle2, AlertTriangle, FileText, Clock, Trophy, ShieldCheck, ArrowRight, ChevronRight, Briefcase, ListChecks, ArrowDown } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, FileText, Clock, Trophy, ShieldCheck, ArrowRight, ChevronRight, ListChecks, ArrowDown, ZoomIn } from 'lucide-react';
 
 interface ServiceAniProps {
   setPage: (page: Page) => void;
+  openLightbox: (src: string) => void;
 }
 
-const ServiceAni: React.FC<ServiceAniProps> = ({ setPage }) => {
+const ServiceAni: React.FC<ServiceAniProps> = ({ setPage, openLightbox }) => {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Hero Header */}
-      <div className="relative h-[500px] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 z-10" />
+      <div 
+        className="relative h-[500px] w-full overflow-hidden group cursor-pointer"
+        onClick={() => openLightbox("https://images.unsplash.com/photo-1465447142348-e9952c393d50?auto=format&fit=crop&q=80&w=2000")}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 z-10 group-hover:from-primary/80 transition-all" />
         <img 
           src="https://images.unsplash.com/photo-1465447142348-e9952c393d50?auto=format&fit=crop&q=80&w=2000" 
           alt="Infraestructura Vial ANI" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 z-20 flex items-center">
+        <div className="absolute bottom-8 right-8 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+            <ZoomIn className="text-white w-8 h-8 drop-shadow-lg" />
+        </div>
+        
+        <div className="absolute inset-0 z-20 flex items-center pointer-events-none">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div className="max-w-3xl">
+            <div className="max-w-3xl pointer-events-auto">
               <div className="flex items-center gap-2 text-blue-200 mb-4 text-sm font-bold tracking-wider uppercase">
                 <span onClick={() => setPage(Page.SERVICES)} className="cursor-pointer hover:text-white transition-colors">Servicios</span>
                 <ChevronRight className="w-4 h-4" />

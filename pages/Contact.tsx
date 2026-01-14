@@ -1,8 +1,12 @@
 
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle2, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, Clock, ZoomIn } from 'lucide-react';
 
-const Contact: React.FC = () => {
+interface ContactProps {
+  openLightbox?: (src: string) => void;
+}
+
+const Contact: React.FC<ContactProps> = ({ openLightbox }) => {
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -158,14 +162,20 @@ const Contact: React.FC = () => {
                 </div>
 
                 <h3 className="text-xl font-bold mb-4">Ubicación</h3>
-                <div className="rounded-lg overflow-hidden h-48 bg-gray-800 relative">
+                <div 
+                   className="rounded-lg overflow-hidden h-48 bg-gray-800 relative group cursor-pointer"
+                   onClick={() => openLightbox && openLightbox("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600")}
+                >
                    {/* Placeholder for Map */}
                    <img 
                       src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600" 
-                      className="w-full h-full object-cover opacity-50"
+                      className="w-full h-full object-cover opacity-50 group-hover:opacity-60 transition-opacity"
                       alt="Mapa Duitama"
                    />
-                   <div className="absolute inset-0 flex items-center justify-center">
+                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="text-white w-5 h-5 drop-shadow-md" />
+                   </div>
+                   <div className="absolute inset-0 flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
                        <a 
                           href="https://maps.google.com/?q=Calle+14+16+48+Duitama" 
                           target="_blank" 
