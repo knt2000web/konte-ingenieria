@@ -7,7 +7,7 @@ export const SERVICES: Service[] = [
     category: 'GESTIÓN NORMATIVA',
     title: 'Proyectos ante la ANI y Entes Gubernamentales',
     description: 'Expertos en destrabar procesos administrativos ante Curadurías, ANI e INVIAS. Gestión especializada para Permisos de Ocupación de Vía (accesos, carriles de aceleración) y Licenciamiento Urbanístico integral (Licencias de Construcción, Reconocimiento, Demolición y Cerramiento).',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800',
+    image: 'https://i.imgur.com/jDYUdIe.jpeg',
     images: [
       'https://i.imgur.com/0cakZKT.jpeg',
       'https://i.imgur.com/ZUrsq3i.jpeg',
