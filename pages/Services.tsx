@@ -141,6 +141,13 @@ const Services: React.FC<ServicesProps> = ({ setPage, openLightbox }) => {
                   >
                     Ver Detalles de Normativa ANI <ArrowRight className="w-5 h-5" />
                   </button>
+                ) : service.id === '5' ? (
+                  <button 
+                    onClick={() => setPage(Page.SERVICE_PH)}
+                    className="w-full md:w-auto px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-secondary transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2"
+                  >
+                    Ver Soluciones para PH <ArrowRight className="w-5 h-5" />
+                  </button>
                 ) : (
                   <button 
                     onClick={() => setPage(Page.CONTACT)}

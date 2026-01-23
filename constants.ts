@@ -21,9 +21,39 @@ export const SERVICES: Service[] = [
     icon: 'verified_user'
   },
   {
+    id: '5',
+    category: 'PROPIEDAD HORIZONTAL',
+    title: 'Mantenimiento y Gestión de Propiedad Horizontal',
+    description: 'Soluciones integrales para la valorización de copropiedades. Especialistas en restauración de fachadas, impermeabilización técnica de cubiertas, obras civiles en zonas comunes y modernización de infraestructuras bajo normativa PH (Ley 675).',
+    image: 'https://i.imgur.com/uWQ2lnV.jpeg',
+    images: [
+      // Fachadas
+      'https://i.imgur.com/uWQ2lnV.jpeg',
+      'https://i.imgur.com/VQds1N0.jpeg',
+      'https://i.imgur.com/sv5JNpt.jpeg',
+      // Impermeabilización
+      'https://i.imgur.com/VzAhdFh.jpeg',
+      'https://i.imgur.com/VQv31Cd.jpeg',
+      'https://i.imgur.com/Q5WLYgH.jpeg',
+      'https://i.imgur.com/1F6zccP.jpeg',
+      'https://i.imgur.com/NXfmcyv.jpeg',
+      // Zonas Comunes
+      'https://i.imgur.com/qzumOZg.jpeg',
+      'https://i.imgur.com/rpIFIjZ.jpeg',
+      'https://i.imgur.com/N6MH44G.jpeg'
+    ],
+    features: [
+      'Mantenimiento y Restauración de Fachadas',
+      'Impermeabilización Técnica de Cubiertas',
+      'Remodelación de Zonas Comunes y Porterías',
+      'Refuerzo Estructural y Paisajismo'
+    ],
+    icon: 'apartment'
+  },
+  {
     id: '2',
-    category: 'CONSULTORÍA TÉCNICA Y ESTUDIOS DE CAMPO',
-    title: 'Estudios Técnicos y Topografía',
+    category: 'CONSULTORÍA TÉCNICA',
+    title: 'Consultoría Técnica y Estudios de Campo',
     description: 'Soporte técnico con equipos de precisión y laboratorios certificados. Realizamos Levantamientos Topográficos de alta precisión (GPS/Magna Sirgas segun IGAC), Estudios de Suelos y Geotecnia para cimentaciones seguras, Peritajes Técnicos de ingeniería forense y Avalúos Comerciales de inmuebles urbanos y rurales.',
     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800',
     images: [

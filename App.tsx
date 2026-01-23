@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import ServiceAni from './pages/ServiceAni';
+import ServicePH from './pages/ServicePH';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import ClientDashboard from './pages/ClientDashboard';
@@ -116,6 +117,8 @@ const App: React.FC = () => {
         return <Services setPage={setCurrentPage} openLightbox={openLightbox} />;
       case Page.SERVICE_ANI:
         return <ServiceAni setPage={setCurrentPage} openLightbox={openLightbox} />;
+      case Page.SERVICE_PH:
+        return <ServicePH setPage={setCurrentPage} openLightbox={openLightbox} />;
       case Page.PROJECTS:
         return <Projects openLightbox={openLightbox} />;
       case Page.CONTACT:

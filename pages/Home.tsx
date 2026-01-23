@@ -82,6 +82,26 @@ const HEALTH_SUB_SERVICES = [
   }
 ];
 
+// Sub-services specific data for animation for Service 5 (Propiedad Horizontal)
+const PH_SUB_SERVICES = [
+  {
+    title: "Mantenimiento de Fachadas",
+    desc: "Limpieza técnica, pintura y restauración de acabados para valorizar la edificación."
+  },
+  {
+    title: "Impermeabilización de Cubiertas",
+    desc: "Sistemas técnicos garantizados para techos y terrazas, previniendo filtraciones críticas."
+  },
+  {
+    title: "Obras Civiles en Zonas Comunes",
+    desc: "Reparación y modernización de áreas de alto tráfico, parqueaderos y muros perimetrales."
+  },
+  {
+    title: "Paisajismo y Porterías",
+    desc: "Diseño de jardines sostenibles y adecuación de accesos seguros y modernos."
+  }
+];
+
 // Sub-services specific data for animation for Service 2 (Technical & Topography)
 const TECHNICAL_SUB_SERVICES = [
   {
@@ -114,6 +134,10 @@ const Home: React.FC<HomeProps> = ({ setPage, openLightbox }) => {
   // State for Health Infrastructure (ID 4)
   const [healthFeatureIndex, setHealthFeatureIndex] = useState(0);
   const [healthBgImageIndex, setHealthBgImageIndex] = useState(0);
+  
+  // State for Propiedad Horizontal (ID 5)
+  const [phFeatureIndex, setPhFeatureIndex] = useState(0);
+  const [phBgImageIndex, setPhBgImageIndex] = useState(0);
 
   // State for Technical Studies (ID 2)
   const [techFeatureIndex, setTechFeatureIndex] = useState(0);
@@ -128,6 +152,9 @@ const Home: React.FC<HomeProps> = ({ setPage, openLightbox }) => {
 
   const healthService = SERVICES.find(s => s.id === '4');
   const healthImagesCount = healthService?.images?.length || 0;
+  
+  const phService = SERVICES.find(s => s.id === '5');
+  const phImagesCount = phService?.images?.length || 0;
 
   const techService = SERVICES.find(s => s.id === '2');
   const techImagesCount = techService?.images?.length || 0;
@@ -168,6 +195,18 @@ const Home: React.FC<HomeProps> = ({ setPage, openLightbox }) => {
         setHealthBgImageIndex((prev) => (prev + 1) % healthImagesCount);
       }, 3500);
     }
+    
+    // --- Service 5 (PH) Intervals ---
+    const phTextInterval = setInterval(() => {
+      setPhFeatureIndex((prev) => (prev + 1) % PH_SUB_SERVICES.length);
+    }, 4500);
+
+    let phImageInterval: ReturnType<typeof setInterval>;
+    if (phImagesCount > 0) {
+      phImageInterval = setInterval(() => {
+        setPhBgImageIndex((prev) => (prev + 1) % phImagesCount);
+      }, 3500);
+    }
 
     // --- Service 2 Intervals ---
     const techTextInterval = setInterval(() => {
@@ -188,10 +227,12 @@ const Home: React.FC<HomeProps> = ({ setPage, openLightbox }) => {
       if (aniImageInterval) clearInterval(aniImageInterval);
       clearInterval(healthTextInterval);
       if (healthImageInterval) clearInterval(healthImageInterval);
+      clearInterval(phTextInterval);
+      if (phImageInterval) clearInterval(phImageInterval);
       clearInterval(techTextInterval);
       if (techImageInterval) clearInterval(techImageInterval);
     };
-  }, [specializedImagesCount, aniImagesCount, healthImagesCount, techImagesCount]);
+  }, [specializedImagesCount, aniImagesCount, healthImagesCount, phImagesCount, techImagesCount]);
 
   return (
     <div className="animate-in fade-in duration-500">
@@ -495,6 +536,87 @@ const Home: React.FC<HomeProps> = ({ setPage, openLightbox }) => {
 
                       <button 
                         onClick={() => setPage(Page.SERVICE_ANI)}
+                        className="w-full py-3 bg-primary dark:bg-blue-600 text-white rounded-lg font-bold hover:bg-secondary dark:hover:bg-blue-700 transition-all text-sm uppercase tracking-wide shadow-md"
+                      >
+                        Ver Detalles Completos
+                      </button>
+                   </div>
+                </div>
+              );
+            }
+            
+            // Logic for Service 5 (Propiedad Horizontal) - REEL CARD
+            if (service.id === '5') {
+              const currentFeature = PH_SUB_SERVICES[phFeatureIndex];
+              const currentBgImage = service.images && service.images.length > 0 
+                ? service.images[phBgImageIndex] 
+                : service.image;
+
+              return (
+                <div key={service.id} className="bg-white dark:bg-bg-dark-card rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 border-2 border-primary/10 dark:border-blue-500/20 flex flex-col h-full">
+                   {/* Image Carousel Header */}
+                   <div 
+                      className="h-64 relative overflow-hidden bg-gray-200 dark:bg-gray-700 cursor-pointer"
+                      onClick={() => openLightbox(phBgImageIndex, service.images || [service.image])}
+                   >
+                     <img 
+                       key={currentBgImage} 
+                       src={currentBgImage} 
+                       alt="Propiedad Horizontal" 
+                       className="w-full h-full object-cover animate-in fade-in duration-700" 
+                       referrerPolicy="no-referrer"
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/60 transition-all"></div>
+                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="text-white w-6 h-6 drop-shadow-md" />
+                     </div>
+                     
+                     {/* Image Indicators */}
+                     <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1 z-10 pointer-events-none">
+                        {service.images?.map((_, idx) => (
+                          <div 
+                            key={idx} 
+                            className={`h-1.5 rounded-full transition-all duration-300 ${idx === phBgImageIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'}`} 
+                          />
+                        ))}
+                     </div>
+                   </div>
+                   
+                   <div className="relative p-6 flex flex-col flex-grow">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="material-icons text-primary dark:text-blue-400">{service.icon || 'apartment'}</span>
+                        <span className="text-xs font-bold text-primary dark:text-blue-400 tracking-widest uppercase">{service.category}</span>
+                      </div>
+                      
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                        {service.title}
+                      </h3>
+                      
+                      {/* Dynamic Content Area */}
+                      <div className="flex-grow flex flex-col mb-4">
+                        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-primary dark:border-blue-500 h-full">
+                            <div key={phFeatureIndex} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                              <h4 className="text-primary dark:text-blue-400 font-bold text-sm uppercase mb-2">
+                                 {currentFeature.title}
+                              </h4>
+                              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                                {currentFeature.desc}
+                              </p>
+                            </div>
+                        </div>
+                        {/* Text Progress Indicators */}
+                        <div className="flex gap-1 mt-2 justify-end">
+                          {PH_SUB_SERVICES.map((_, i) => (
+                            <div 
+                              key={i} 
+                              className={`h-1 rounded-full transition-all duration-500 ${i === phFeatureIndex ? 'w-4 bg-primary dark:bg-blue-500' : 'w-1 bg-gray-200 dark:bg-gray-600'}`} 
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      <button 
+                        onClick={() => setPage(Page.SERVICE_PH)}
                         className="w-full py-3 bg-primary dark:bg-blue-600 text-white rounded-lg font-bold hover:bg-secondary dark:hover:bg-blue-700 transition-all text-sm uppercase tracking-wide shadow-md"
                       >
                         Ver Detalles Completos

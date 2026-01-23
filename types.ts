@@ -1,3 +1,4 @@
+
 export interface Service {
   id: string;
   title: string;
@@ -39,6 +40,7 @@ export enum Page {
   ABOUT = 'ABOUT',
   SERVICES = 'SERVICES',
   SERVICE_ANI = 'SERVICE_ANI',
+  SERVICE_PH = 'SERVICE_PH',
   PROJECTS = 'PROJECTS',
   CONTACT = 'CONTACT',
   DASHBOARD = 'DASHBOARD'

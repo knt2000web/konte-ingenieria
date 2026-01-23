@@ -50,8 +50,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
                 </button>
               </li>
               <li>
-                <button onClick={(e) => handleNavigation(e, Page.SERVICES)} className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-blue-400 transition-colors text-left">
-                  Ingeniería Vial
+                <button onClick={(e) => handleNavigation(e, Page.SERVICE_PH)} className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-blue-400 transition-colors text-left">
+                  Propiedad Horizontal
                 </button>
               </li>
               <li>
@@ -122,8 +122,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
         </div>
 
         <div className="border-t border-gray-100 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center md:text-left">
-            © 2024 KONTE Ingeniería. Todos los derechos reservados.
+          <p className="text-xs text-gray-500 dark:text-gray-400 text-center md:text-left font-medium">
+            © KONTE, Todos los Derechos Reservados. Designed By Cesar Giraldo
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-xs text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-blue-400">Política de Privacidad</a>
